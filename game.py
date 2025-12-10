@@ -5,7 +5,7 @@ from collections import namedtuple
 import numpy as np
 
 pygame.init()
-font = pygame.font.SysFont('arial', 25)
+font = pygame.font.SysFont('arial', 25) #sets font type and size
 
 # reset
 # reward
@@ -13,8 +13,8 @@ font = pygame.font.SysFont('arial', 25)
 # game_iteration
 # is_collision
 
-class Direction(Enum):
-    RIGHT = 1
+class Direction(Enum):  #sets a class for the directions
+    RIGHT = 1 #sets each direction as a number
     LEFT = 2
     UP = 3
     DOWN = 4
@@ -23,49 +23,50 @@ Point = namedtuple('Point', 'x, y')
 
 #rgb colors
 WHITE = (255, 255, 255)
-RED = (200,0,0)
-BLUE1 = (0,0,255)
-BLUE2 = (0,100,255)
-BLACK = (0,0,0)
+RED = (200, 0, 0)
+BLUE1 = (0, 0, 255)
+BLUE2 = (0, 100, 255)
+BLACK = (0, 0, 0)
 
+#set constants
 BLOCK_SIZE = 20
 SPEED = 15
 
-class SnakeGameAI:
+class SnakeGameAI:  #sets another class for the snake game 
 
-    def __init__(self, w = 640, h = 480):
-        self.w = w
-        self.h = h
+    def __init__(self, w = 640, h = 480):  #defines a funtion with the parameters of self, width, and height
+        self.w = w #sets width of display as 640
+        self.h = h #sets height of display as 480
         # init display
-        self.display = pygame.display.set_mode((self.w, self.h))
-        pygame.display.set_caption('Snake')
-        self.clock = pygame.time.Clock()
-        self.reset()
+        self.display = pygame.display.set_mode((self.w, self.h)) #creates a display with the width and height of 640 and 480
+        pygame.display.set_caption('Snake') #creates a title for the display
+        self.clock = pygame.time.Clock() #sets the clock
+        self.reset() #calls the reset function
 
 
-    def reset(self):
+    def reset(self): #defines a function that takes the parameter of self
         #init game state
-        self.direction = Direction.RIGHT
+        self.direction = Direction.RIGHT #sets the snake to be facing right when the game is reset
 
-        self.head = Point(self.w/2, self.h/2)
+        self.head = Point(self.w/2, self.h/2) #sets the snake head to be in the center of the display
         self.snake = [self.head, 
-                      Point(self.head.x-BLOCK_SIZE, self.head.y),
-                      Point(self.head.x-(2*BLOCK_SIZE), self.head.y)]
+                      Point(self.head.x-BLOCK_SIZE, self.head.y), #sets the first block of the snake body to be 20 pixels to the left of the head
+                      Point(self.head.x-(2*BLOCK_SIZE), self.head.y)] #sets the second block of the snake body to be 40 pixels to the left of the head
 
-        self.score = 0
-        self.food = None
-        self._place_food()
-        self.frame_iteration = 0
+        self.score = 0 #sets the score as 0
+        self.food = None #sets the food as none
+        self._place_food() #calls the _place_food function
+        self.frame_iteration = 0 #sets the frame iteration as 0 
 
-    def _place_food(self):
-        x = random.randint(0, (self.w-BLOCK_SIZE )//BLOCK_SIZE )*BLOCK_SIZE
-        y = random.randint(0, (self.h-BLOCK_SIZE )//BLOCK_SIZE )*BLOCK_SIZE
-        self.food = Point(x, y)
-        if self.food in self.snake:
-            self._place_food()
+    def _place_food(self): #defines a function that takes the parameter of self
+        x = random.randint(0, (self.w-BLOCK_SIZE )//BLOCK_SIZE )*BLOCK_SIZE #sets the x value of the food as a random integer between 0 and 620, rounded to the nearest 20 pixels
+        y = random.randint(0, (self.h-BLOCK_SIZE )//BLOCK_SIZE )*BLOCK_SIZE #sets the y value of the food as a random integer between 0 and 460, rounded to the nearest 20 pixels
+        self.food = Point(x, y) #sets the food to be at the random point with the random x and y values
+        if self.food in self.snake: #checks if the food is on top of the snake
+            self._place_food() #calls the _place_food function again if the food is on top of the snake
 
-    def play_step(self, action):
-        self.frame_iteraction += 1
+    def play_step(self, action): #defines a function that takes the parameter of self and action
+        self.frame_iteraction += 1 
         # 1. collect user input
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
