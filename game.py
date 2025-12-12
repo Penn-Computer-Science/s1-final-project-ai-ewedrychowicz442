@@ -30,7 +30,7 @@ BLACK = (0, 0, 0)
 
 #set constants
 BLOCK_SIZE = 20
-SPEED = 15
+SPEED = 20
 
 class SnakeGameAI:  #sets another class for the snake game 
 
@@ -66,7 +66,7 @@ class SnakeGameAI:  #sets another class for the snake game
             self._place_food() #calls the _place_food function again if the food is on top of the snake
 
     def play_step(self, action): #defines a function that takes the parameter of self and action
-        self.frame_iteraction += 1 
+        self.frame_iteration += 1 
         # 1. collect user input
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -98,7 +98,7 @@ class SnakeGameAI:  #sets another class for the snake game
         self.clock.tick(SPEED)
 
         #6. return game over and score
-        game_over = False
+        #game_over = False
         return reward, game_over, self.score
     
     def is_collision(self, pt = None):
