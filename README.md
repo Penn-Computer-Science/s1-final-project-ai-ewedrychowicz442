@@ -1,3 +1,4 @@
+[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/Wuud-5WI)
 # Topics in CS - Project 5: AI (Final Project for Fall Semester)
 
 Welcome to your final project for the AI unit! This assignment serves as your final exam and challenges you to design, train, evaluate, and present an AI system of your choice.
@@ -176,16 +177,16 @@ model = keras.models.load_model("model.keras")
 ## Reflection - Complete this once you have finished!
 
 **Best performing model/run and why:**  
-*(Write here)*  
+*The best run was game number 145 with a score of 63. It has played the game enough time that it has explored the environment and learned that it gets a reward when "eating" an apple. It also had learned to avoid the walls and somewhat avoid itself.*  
 
 **Most important hyperparameters and effects:**  
-*(Write here)*  
+*The most important hyperparameters and effects are exploration rate and the reward/penalty shaping behavior. The exploration rate is important because it controls the trade-off between exploring new actiona and exploiting known good ones. The reward/penalty shaping behavior is important because it strengthens behaviors followed by positive reinforcements, while those followed by punishments are weakened. This helps guide the agent.*  
 
 **Dataset limitations or biases:**  
-*(Write here)*  
+*A limitation is that there is no time limit. This allows the agent to exploit instead of explore its environment. The agent can move in a circle, without getting any food and still not be punished.*  
 
 **Unexpected results:**  
-*(Write here)*  
+*I expected the snake to get better as time went on and it got better at the game. Instead, each good run was followed by a horrible one. The average score did slighty increase per game, but even after over 200 games the average score was only 16.*  
 
 **What you would improve with more time:**  
-*(Write here)*  
+*If I had more time I would add a time limit. This would force the snake to explore the environment more, making it better at the game.*  
