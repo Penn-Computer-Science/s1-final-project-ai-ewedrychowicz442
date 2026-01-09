@@ -68,19 +68,19 @@ class SnakeGameAI:  #sets another class for the snake game
     def play_step(self, action): #defines a function that takes the parameter of self and action
         self.frame_iteration += 1 
         # 1. collect user input
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
+        for event in pygame.event.get(): #loops through all the events in pygame
+            if event.type == pygame.QUIT: #checks if the event type is quit
+                pygame.quit() 
                 quit()
 
         #2. move
         self._move(action) #update the head
-        self.snake.insert(0, self.head)
+        self.snake.insert(0, self.head) #insert new head
 
         #3. check if game over
         reward = 0
         game_over = False
-        if self.is_collision() or self.frame_iteration > 100*len(self.snake):
+        if self.is_collision() or self.frame_iteration > 100*len(self.snake): 
             game_over = True
             reward = -10
             return reward, game_over, self.score
@@ -91,61 +91,61 @@ class SnakeGameAI:  #sets another class for the snake game
             reward = 10
             self._place_food()
         else:
-            self.snake.pop()
+            self.snake.pop() 
 
         #5. update ui and clock
-        self._update_ui()
-        self.clock.tick(SPEED)
+        self._update_ui() #updates the user interface
+        self.clock.tick(SPEED) #sets the speed of the game
 
         #6. return game over and score
         #game_over = False
         return reward, game_over, self.score
     
-    def is_collision(self, pt = None):
-        if pt is None:
-            pt = self.head
+    def is_collision(self, pt = None): #defines a function that takes the parameter of self and point
+        if pt is None: #if no point is provided
+            pt = self.head #sets the point as the head of the snake
         #hits boundary
-        if pt.x > self.w - BLOCK_SIZE or pt.x < 0 or pt.y > self.h - BLOCK_SIZE or pt.y < 0:
+        if pt.x > self.w - BLOCK_SIZE or pt.x < 0 or pt.y > self.h - BLOCK_SIZE or pt.y < 0: #checks if the point is outside the boundaries of the display
             return True
         #hits itself
-        if pt in self.snake[1:]:
+        if pt in self.snake[1:]: #checks if the point is in the snake body excluding the head
             return True
         
         return False
 
     def _update_ui(self):
-        self.display.fill(BLACK)
+        self.display.fill(BLACK) #fills the display with black color
 
-        for pt in self.snake:
-            pygame.draw.rect(self.display, BLUE1, pygame.Rect(pt.x, pt.y, BLOCK_SIZE, BLOCK_SIZE))
-            pygame.draw.rect(self.display, BLUE2, pygame.Rect(pt.x+4, pt.y+4, 12, 12))
+        for pt in self.snake: #loops through each point in the snake body
+            pygame.draw.rect(self.display, BLUE1, pygame.Rect(pt.x, pt.y, BLOCK_SIZE, BLOCK_SIZE)) #draws a rectangle for each point in the snake body
+            pygame.draw.rect(self.display, BLUE2, pygame.Rect(pt.x+4, pt.y+4, 12, 12)) #draws a smaller rectangle inside the first rectangle to create a border effect
 
-        pygame.draw.rect(self.display, RED, pygame.Rect(self.food.x, self.food.y, BLOCK_SIZE, BLOCK_SIZE))
+        pygame.draw.rect(self.display, RED, pygame.Rect(self.food.x, self.food.y, BLOCK_SIZE, BLOCK_SIZE)) #draws a rectangle for the food
 
-        text = font.render("Score: " + str(self.score), True, WHITE)
-        self.display.blit(text, [0, 0])
-        pygame.display.flip()
+        text = font.render("Score: " + str(self.score), True, WHITE) 
+        self.display.blit(text, [0, 0]) #displays the score on the screen
+        pygame.display.flip() #updates the display
 
     def _move(self, action):
         # [straight, right, left]
 
-        clock_wise = [Direction.RIGHT, Direction.DOWN, Direction.LEFT, Direction.UP]
-        idx = clock_wise.index(self.direction)
+        clock_wise = [Direction.RIGHT, Direction.DOWN, Direction.LEFT, Direction.UP] #creates a list of the directions in clockwise order
+        idx = clock_wise.index(self.direction) #gets the index of the current direction
 
-        if np.array_equal(action, [1, 0, 0]):
+        if np.array_equal(action, [1, 0, 0]): 
             new_dir = clock_wise[idx] #no change
-        elif np.array_equal(action, [0, 1, 0]):
+        elif np.array_equal(action, [0, 1, 0]): 
             next_idx = (idx + 1) % 4
             new_dir = clock_wise[next_idx] #right turn r -> d -> l -> u
         else: #[0, 0, 1]
             next_idx = (idx -1) % 4
             new_dir = clock_wise[next_idx] #left turn r -> u -> l -> d
             
-        self.direction = new_dir
+        self.direction = new_dir #update the direction
 
         x = self.head.x
         y = self.head.y
-        if self.direction == Direction.RIGHT:
+        if self.direction == Direction.RIGHT: 
             x += BLOCK_SIZE
         elif self.direction == Direction.LEFT:
             x -= BLOCK_SIZE
@@ -154,4 +154,4 @@ class SnakeGameAI:  #sets another class for the snake game
         elif self.direction == Direction.UP:
             y -= BLOCK_SIZE
 
-        self.head = Point(x, y)
+        self.head = Point(x, y) #update the head position
